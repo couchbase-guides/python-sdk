@@ -1,0 +1,92 @@
+---
+tags: [java-sdk]
+---
+:toc:
+:icons: font
+:source-highlighter: prettify
+:project_id: python-sdk
+This guide walks you through the process of using the Couchbase Python SDK to store a JSON document in http://developer.couchbase.com/[Couchbase].
+
+== What you'll build
+
+You will store a JSON document representiong a Person in Couchbase Server using the http://developer.couchbase.com/documentation/server/current/sdk/python/start-using-sdk.html[Couchbase Python SDK].
+
+== What you'll need
+
+* 15-30 minutes
+* A Python code editor
+* http://www.couchbase.com/nosql-databases/downloads[Couchbase Server 4.5+]
+
+== Setup
+
+=== Install and Start Couchbase
+
+Install and start Couchbase for your operating system as explained at: http://developer.couchbase.com/documentation/server/current/getting-started/installing.html. A default bucket by the name `default` is created for you.
+
+=== Install Python Client SDK
+
+Install Python Client SDK using the following instructions on OSX:
+
+```
+brew install libcouchbase
+brew install python
+pip install couchbase
+```
+
+Complete instructions for different platforms are available at http://developer.couchbase.com/documentation/server/current/sdk/python/start-using-sdk.html.
+
+== Create Application
+
+In your favorite editor, create a new file `app.py`. Copy the following code in that file:
+
+[source,python]
+----
+from couchbase.bucket import Bucket
+from couchbase.n1ql import N1QLQuery
+
+# Connect to Couchbase
+bucket = Bucket('couchbase://localhost/default')
+
+# Upsert a document in the bucket
+bucket.upsert("book1", {
+  "isbn": "978-1-4919-1889-0",
+  "name": "Minecraft Modding with Forge",
+  "cost": 29.99
+})
+
+# retrieve and print the document
+print(bucket.get("book1").value)
+
+# retrieve and print all the documents
+# Query all documents from the bucket
+query = N1QLQuery("SELECT isbn, name, cost FROM `default`")
+for row in bucket.n1ql_query(query):
+    print(row)
+----
+
+`Bucket` class creates a connection to the Couchbase node identified by `localhost`. It also opens up the `default` bucket.
+
+A JSON document is upserted in the bucket. The word `"upsert"` comes from `"update"` and `"insert"`. So this method will either insert the document if it does not exist, or update if it already exists. A fresh install of Couchbase has an empty `default` bucket. So the document will be inserted for the first run. Subsequent runs of this application will update the document.
+
+A key is given to identify the document, this is `book1` in our case. The document itself is the JSON fragment and is the second parameter of the method.
+
+The inserted document can be easily accessed using `bucket.get()` method and passing the key used during the creation. Value of the document can be retrieved using `.value`.
+
+All documents from the bucket can be easily retrieved using http://couchbase.com/n1ql[N1QL] query as well.
+
+== Run Application
+
+Run the application using `python app.py`. It will show the output as:
+
+[source, text]
+----
+{u'cost': 29.99, u'isbn': u'978-1-4919-1889-0', u'name': u'Minecraft Modding with Forge'}
+{u'cost': 29.99, u'isbn': u'978-1-4919-1889-0', u'name': u'Minecraft Modding with Forge'}
+----
+
+The first result comes from `print(bucket.get("book1").value)` method. The second line comes from executing the N1QL query and iterating over all the documents.
+
+== Summary
+
+Congratulations! You set up a Couchbase server and wrote a simple Python application that stores and retrieves a JSON document in Couchbase.
+
