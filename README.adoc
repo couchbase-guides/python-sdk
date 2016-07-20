@@ -26,13 +26,27 @@ Install and start Couchbase for your operating system as explained at: http://de
 
 === Install Python Client SDK
 
-Install Python Client SDK using the following instructions on OSX:
+Install Python Client SDK on OSX requires to install `brew` package manager. This in turn requires to install XCode and the process could take a few minutes depending upon your connectivity. 
+
+. Download and Install https://itunes.apple.com/au/app/xcode/id497799835?mt=12[XCode].
+. Install the XCode CLI tools as `xcode-select --install`.
+. Install `brew` package manager as:
++
+```
+ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+brew doctor
+```
++
+. Now you are ready to install Couchbase Python libraries:
++
 
 ```
 brew install libcouchbase
 brew install python
 pip install couchbase
 ```
++
+This will first install the `libcouchbase` library, then Python interpreter, and finally the Couchbase Python library.
 
 Complete instructions for different platforms are available at http://developer.couchbase.com/documentation/server/current/sdk/python/start-using-sdk.html.
 
@@ -79,7 +93,7 @@ All documents from the bucket can be easily retrieved using http://couchbase.com
 
 == Run
 
-Run the application using `python app.py`. It will show the output as:
+Open a terminal or command prompt and give the command `python app.py` to run the application. It will show the output as:
 
 [source, text]
 ----
