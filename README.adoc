@@ -75,7 +75,6 @@ bucket.upsert("book1", {
 print(bucket.get("book1").value)
 
 # retrieve and print all the documents
-# Query all documents from the bucket
 query = N1QLQuery("SELECT isbn, name, cost FROM `default`")
 for row in bucket.n1ql_query(query):
     print(row)
