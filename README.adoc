@@ -6,6 +6,8 @@ tags: [python-sdk]
 :source-highlighter: prettify
 :project_id: python-sdk
 
+= Getting started with Couchbase and the Python SDK
+
 This guide explains how to use http://developer.couchbase.com/documentation/server/current/sdk/python/start-using-sdk.html[Couchbase Python SDK] to store and retrieve a JSON document in http://developer.couchbase.com/server[Couchbase].
 
 == What you'll build
